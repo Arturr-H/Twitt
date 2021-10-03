@@ -77,8 +77,8 @@ app.get("/", async (req, res) => {
                 })
             });
     
-        }catch(err){
-            console.log(err)
+        }catch{
+            res.sendStatus(404)
         }
     
     
@@ -107,12 +107,11 @@ app.get("/post", async (req, res) => {
     const creatorname = req.headers.creatorname;
     const creatorid = req.headers.creatorid;
 
-    console.log(req.headers)
 
     const TwittID = GET_RANDOM_ID();
 
     try{
-        if(text != undefined){
+        if(text != undefined && text.length >= 1 && text.replace(/ /gm, "").length >= 1){
 
             await client.query(
                 Create(
@@ -136,7 +135,7 @@ app.get("/post", async (req, res) => {
         }
 
     }catch(err){
-        console.log(err)
+        res.sendStatus(404)
     }
 })
 
@@ -148,54 +147,60 @@ app.get("/postComment", async (req, res) => {
         const hashtag = req.headers.hashtag;
         const TwittID = GET_RANDOM_ID();
 
-        //Gör ett dokument som har kommentaren i sig
-        await client.query(
-            Create(
-                Collection("Comments"),
-                {
-                    data: {
-                        text: text,
-                        hashtag: hashtag.split(","),
-                        id: TwittID,
-                        twitt: id,
-                    }
-                }
-            )
-        )
-
-        //Få ID:et av twitten som blev kommenterad
-        const docID = await client.query(
-            Get(
-                Match(
-                    Index("Twitt_by_id"),
-                    id
-                )
-            )
-        )
-
-        //Uppdatera dokumentet så kommentar postens id är med
-        await client.query(
-            Let(
-                {
-                    ref:docID.ref,
-                    doc:Get(Var('ref')),
-                    array:Select(['data','comments'],Var('doc'))
-                },
-                Update(
-                    Var('ref'),
+        if(text != undefined && text.length >= 1 && text.replace(/ /gm, "").length >= 1){
+            //Gör ett dokument som har kommentaren i sig
+            await client.query(
+                Create(
+                    Collection("Comments"),
                     {
-                        data:{
-                            comments:Append([TwittID],Var('array'))
+                        data: {
+                            text: text,
+                            hashtag: hashtag.split(","),
+                            id: TwittID,
+                            twitt: id,
                         }
                     }
                 )
             )
-        )
 
-        res.sendStatus(200)
+            //Få ID:et av twitten som blev kommenterad
+            const docID = await client.query(
+                Get(
+                    Match(
+                        Index("Twitt_by_id"),
+                        id
+                    )
+                )
+            )
+
+            //Uppdatera dokumentet så kommentar postens id är med
+            await client.query(
+                Let(
+                    {
+                        ref:docID.ref,
+                        doc:Get(Var('ref')),
+                        array:Select(['data','comments'],Var('doc'))
+                    },
+                    Update(
+                        Var('ref'),
+                        {
+                            data:{
+                                comments:Append([TwittID],Var('array'))
+                            }
+                        }
+                    )
+                )
+            )
+
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(404)
+        }
+
+
     }catch(err){
         res.sendStatus(404)
-        console.log(err)
     }
 })
 
@@ -249,7 +254,6 @@ app.get("/twitt/:id?", async (req, res) => {
             comments: CommentCards,
         })
     }catch(err){
-        console.log(err)
         res.sendStatus(404)
     }
 })
@@ -287,7 +291,6 @@ app.get("/hashtag/:ht?", async (req, res) => {
             Cards: Cards,
         })
     }catch(err){
-        console.log(err)
         res.sendStatus(404)
     }
 })
@@ -347,8 +350,8 @@ app.get("/CreateAccount", async (req, res) => {
                 res.sendStatus(200)
             }
         }
-    }catch(err){
-        console.log(err)
+    }catch{
+        res.sendStatus(404)
     }
 
 })
@@ -377,7 +380,6 @@ app.get("/LoginAccount", async (req, res) => {
             //Kolla om lösenordet matchar det riktiga lösenordet
             //Om inte, skicka 404
             if (doc.data.password == password){
-                console.log(doc.data.id)
                 res.json({
                     id: doc.data.id,
                     username: doc.data.username,
@@ -390,7 +392,6 @@ app.get("/LoginAccount", async (req, res) => {
 
     }catch(err){
         res.sendStatus(404)
-        console.log(err)
     }
 
 })
@@ -475,7 +476,6 @@ app.get("/user/:id?", async (req, res) => {
         })
         
     }catch(err){
-        console.log(err)
         res.sendStatus(404)
     }
 
