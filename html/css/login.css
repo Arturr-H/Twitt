@@ -1,0 +1,93 @@
+body{
+    margin: 0;
+    background: rgb(58, 56, 77);
+}
+
+h1{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8vmin;
+    font-weight: 300;
+
+    margin: 0%;
+    margin-top: 2vmax;
+
+    color: white;
+
+    text-align: center;
+}
+
+p{
+    font-size: 1.5vmax;
+    font-weight: 300;
+
+    margin-top: 2vmax;
+
+    text-align: center;
+
+    color: white;
+}
+
+button{
+    transition: background 0.03s;
+
+    width: 10vmax;
+    height: 3.5vmax;
+    display: block;
+    margin: auto;
+    outline: none;
+    border: none;
+
+    background: none;
+
+    margin-top: 4vmax;
+    color: white;
+
+    outline: white solid 0.1vmax;
+
+    font-size: 300;
+    font-family: 'Montserrat', sans-serif;
+
+}button:hover{
+    background: white;
+    color: black;
+}button:active{
+    filter: brightness(90%);
+}
+
+.WARN{
+    color: red;
+    text-align: center;
+    font-size: 2vmax;
+    margin: 0%;
+    margin-top: 1vmax;
+}
+
+
+input{
+    display: block;
+
+    outline: none;
+    border: none;
+
+    background: none;
+
+    width: 20vmax;
+    height: 2vmax;
+    padding-top: 2vmax;
+
+    border-bottom: 0.1vmax white solid;
+
+    font-size: 1.2vmax;
+    font-weight: 300;
+
+    color: rgba(255, 255, 255, 0.562);
+}
+
+
+.CENTER{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    flex-wrap: wrap;
+}

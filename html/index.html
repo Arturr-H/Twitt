@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://backend.artur.red/frontend/style">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Twitt</title>
+</head>
+    <header>
+        <div class="NAVBAR">
+            <h1>Twitt</h1>
+            <a id="PROFILE_LINK"><img id="PROFILE" src="https://avatars.dicebear.com/api/open-peeps/<%- creatorid %>.svg" class="PROFILE_IMG"></a>
+        </div>
+    </header>
+
+    <body>
+        <div class="CONTAINER">
+            
+            <div class="SIDER">
+                <textarea id="inpt" placeholder="New Twitt"></textarea>
+                <button id="pbls">Twitt!</button>
+            </div>
+
+            <div class="MAIN" id="CARD_CONTAINER">
+
+            </div>
+
+            <div class="SIDER">
+                <div class="PROFILE_LIST">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${elemeant.taext}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.teaaaxt}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${eleawdmaent.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.aaatext}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${eleawdmedawdnt.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${eleawdmedawdawnt.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${elementawdaw.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${elemeddant.taaext}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${eleawddawawdawdawdawment.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${dwa.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${elemeawdnt.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${aw.dtawdawdawdext}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${eleawdawdmeawdnt.text}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${dd.tddwawdadext}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${d.text}.svg">
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            let Cards = <%- JSON.stringify(Cards || null) %>
+        </script>
+        
+        <script src="https://artur.red/Backend/Twitt/html/javascript/cookieHandler.js"></script>
+        <script src="https://artur.red/Backend/Twitt/html/javascript/AccountManager.js"></script>
+
+        <script src="https://backend.artur.red/frontend/script"></script>
+
+    </body>
+
+</html>

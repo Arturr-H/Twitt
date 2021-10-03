@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://backend.artur.red/frontend/style">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title><%- Twitt %></title>
+</head>
+    <header>
+        <div class="NAVBAR">
+            <h1>Twitt</h1>
+        </div>
+    </header>
+
+    <body>
+        <div class="CONTAINER">
+            
+
+            <div class="MAIN SMALL" id="CARD_CONTAINER">
+                <div class="CARD" style="height: 15vmax;">
+                    <div class="CARD_LEFT_BAR">
+                        <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.text}.svg">
+                    </div>
+                    <div class="CARD_RIGHT_BAR">
+                        <p>
+                            <%- Twitt %>
+                        </p>
+                    </div>
+        
+                </div>
+                <div class="CARD_CONFIG_BAR">
+                    <a class="ICON_LINK"><i class="material-icons">favorite_border</i></a>
+                    <a class="ICON_LINK"><i class="material-icons">ios_share</i></a>
+                    <a class="ICON_LINK"><i class="material-icons">bookmark_border</i>
+
+                    <a class="ICON_LINK" style="font-size: 0.9vmax; color: rgba(135, 135, 135, 0.5);"><%- date %></a>
+                </div>
+
+                <h1>Comments</h1>
+                <div class="COMMENT_OUTPUT" id="COMMENT_OUT">
+                    
+                </div>
+            </div>
+
+            <div class="PROFILE_LIST" style="background: var(--SECONDARY);">
+                <textarea id="inpt" placeholder="Comment" style="margin-top: 0.5vmax; height: 12vmax;"></textarea>
+                <button id="pbls">Comment!</button>
+            </div> 
+
+        </div>
+
+
+        <script>
+            let t_id = <%- JSON.stringify(id || null) %>
+            let comments = <%- JSON.stringify(comments || null) %>
+        </script>
+
+        <script src="https://artur.red/Backend/Twitt/html/javascript/cookieHandler.js"></script>
+        <script src="https://artur.red/Backend/Twitt/html/javascript/Commenthandler.js"></script>
+    </body>
+
+</html>
