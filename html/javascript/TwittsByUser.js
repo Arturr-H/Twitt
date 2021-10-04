@@ -7,7 +7,7 @@ if(Twitts != ""){
             
             <div class="CARD" style="z-index: 100">
                 <div class="CARD_LEFT_BAR">
-                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.creatorid}.svg">
+                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.creatorname.toLowerCase()}.svg">
                 </div>
                     <div class="CARD_RIGHT_BAR">
                         <p>

@@ -19,6 +19,7 @@ document.getElementById("pbls").addEventListener("click", async () => {
                 text: text,
                 hashtag: [...text.matchAll(/\B\#([a-zA-Z]+\w)/gm)],
                 postid: id,
+                username: getCookie("usnm").toLowerCase(),
             },
         })
         console.log("shiting")
@@ -37,7 +38,7 @@ comments.forEach(element => {
         <div style="display: inline-block; margin: 0.5vmax; width: calc(50% - 1.2vmax)">
             <div class="CARD" style="width: 100%; margin-top: 0">
                 <div class="CARD_LEFT_BAR">
-                    <img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.id}.svg">
+                    <a href="https://backend.artur.red/user/${element.username}"><img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.username}.svg"></a>
                 </div>
                     <div class="CARD_RIGHT_BAR">
                         <p>
@@ -48,7 +49,10 @@ comments.forEach(element => {
                                     .replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>")
                                     .replace(/\*(.*?)\*/gm, "<i>$1</i>")
                                     .replace(/\*\*/gm, "")
-                                    .replace(/\B\#([a-zA-Z]+\w)/gm, "<a class='LINK' href='https://backend.artur.red/hashtag/$1'>#$1</a>")                            }
+                                    .replace(/\B\#([a-zA-Z]+\w)/gm, "<a class='LINK' href='https://backend.artur.red/hashtag/$1'>#$1</a>")
+                                    .replace(/\@([a-zA-Z]+\w)/gm, "<a class='LINK' href='https://backend.artur.red/user/$1'>@$1</a>")
+
+                            }
                         </p>
                     </div>
             </div>

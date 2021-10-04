@@ -105,6 +105,8 @@ h1{
     justify-content: center;
 
     text-overflow: ellipsis;
+
+    word-wrap: break-word;
 }.CARD_CONFIG_BAR{
     width: calc(100% - 1vmax);
     height: 3vmax;

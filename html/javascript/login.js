@@ -23,7 +23,7 @@ const submit = async () => {
                 method: "GET",
                 headers: {
                     password: password,
-                    email: email,
+                    email: email.toLowerCase(),
                 }
             }).then(async (res) => {
 

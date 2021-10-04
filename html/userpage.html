@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: var(--PRIMARY); overflow-x: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,21 +10,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <title>Twitt user - <%- username %></title>
+    <title>Twitt user - <%- displayname %></title>
 </head>
     <header>
         <div class="NAVBAR">
-            <h1>Twitt</h1>
+            <a href="https://backend.artur.red"><h1>Twitt</h1></a>
         </div>
     </header>
 
 
-    <body>
+    <body style="overflow-x: hidden;">
 
         <div class="CONTAINER">
             <div style="display: block; width: 100vw; height: min-content;">
-                <img class="PROFILE_IMG_USERPAGE" src="https://avatars.dicebear.com/api/open-peeps/<%- id %>.svg">
-                <h1 class="PROFILE_NAME"><%- username %></h1>
+                <img class="PROFILE_IMG_USERPAGE" src="https://avatars.dicebear.com/api/open-peeps/<%- username %>.svg">
+                <h1 class="PROFILE_NAME"><%- displayname %></h1>
             </div>
 
             <h1 style="position: absolute; top: 30vmax;"><%- username %>'s twitts</h1>

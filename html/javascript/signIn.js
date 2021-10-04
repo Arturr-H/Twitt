@@ -7,11 +7,14 @@ const throwErr = (n) => {
 const submit = async () => {
 
     const email = document.getElementById("emi").value
-    const username = document.getElementById("uni").value
+    const username = document.getElementById("uni").value.toLowerCase()
+    const displayname = document.getElementById("dni").value
+
     const password = document.getElementById("psi").value
 
-
-    if(username.length <= 3){
+    if(displayname.length <= 3){
+        throwErr("Display name too short!")
+    }else if(username.length <= 3){
         throwErr("Username too short.")
     }else if(email.includes("@") == -1){
         throwErr("Invalid email.")
@@ -31,14 +34,18 @@ const submit = async () => {
                 method: "GET",
                 headers: {
                     username: username,
+                    displayname: displayname,
                     password: password,
-                    email: email,
+                    email: email.toLowerCase(),
                     id: uid,
                 }
             }).then((res) => {
 
                 if(res.status == 226){
                     throwErr("Email already registered!")
+                }
+                else if(res.status == 409){
+                    throwErr("Username already taken.")
                 }
                 else if(res.ok){
                     setCookie("usr", email + ",-," + password, 30);

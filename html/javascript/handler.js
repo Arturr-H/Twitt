@@ -8,7 +8,7 @@ if(Cards != ""){
             
             <div class="CARD">
                 <div class="CARD_LEFT_BAR">
-                    <a href="https://backend.artur.red/user/${element.creatorid}"><img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.creatorid}.svg"></a>
+                    <a href="https://backend.artur.red/user/${element.creatorname.toLowerCase()}"><img class="PROFILE_IMG" src="https://avatars.dicebear.com/api/open-peeps/${element.creatorname.toLowerCase()}.svg"></a>
                 </div>
                     <div class="CARD_RIGHT_BAR">
                         <p>
@@ -20,6 +20,8 @@ if(Cards != ""){
                                     .replace(/\*(.*?)\*/gm, "<i>$1</i>")
                                     .replace(/\*\*/gm, "")
                                     .replace(/\B\#([a-zA-Z]+\w)/gm, "<a class='LINK' href='https://backend.artur.red/hashtag/$1'>#$1</a>")
+                                    .replace(/\@([a-zA-Z]+\w)/gm, "<a class='LINK' href='https://backend.artur.red/user/$1'>@$1</a>")
+
                             }
                         </p>
                     </div>
@@ -100,14 +102,14 @@ const tgnm = () => {
         document.documentElement.style.setProperty("--TEXT", "black");
     }
 }    
-if(getCookie("ngmode") == 0){
-    document.documentElement.style.setProperty("--PRIMARY", "rgb(50, 46, 60)");
-    document.documentElement.style.setProperty("--SECONDARY", "rgb(40, 36, 50)");
-    document.documentElement.style.setProperty("--TEXT", "white");
+// if(getCookie("ngmode") == 0){
+document.documentElement.style.setProperty("--PRIMARY", "rgb(50, 46, 60)");
+document.documentElement.style.setProperty("--SECONDARY", "rgb(40, 36, 50)");
+document.documentElement.style.setProperty("--TEXT", "white");
 
-}else {
+// }else {
 
-    document.documentElement.style.setProperty("--PRIMARY", "rgb(245, 245, 245)");
-    document.documentElement.style.setProperty("--SECONDARY", "rgb(255, 255, 255)");
-    document.documentElement.style.setProperty("--TEXT", "black");
-}
+//     document.documentElement.style.setProperty("--PRIMARY", "rgb(245, 245, 245)");
+//     document.documentElement.style.setProperty("--SECONDARY", "rgb(255, 255, 255)");
+//     document.documentElement.style.setProperty("--TEXT", "black");
+// }

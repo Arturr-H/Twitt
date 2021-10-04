@@ -90,14 +90,6 @@ app.get("/", async (req, res) => {
     }
 })
 
-app.get("/login", async (req, res) => {
-    res.sendFile(__dirname + "/html/login.html")
-})
-
-app.get("/SignIn", async (req, res) => {
-    res.sendFile(__dirname + "/html/signIn.html")
-})
-
 app.get("/post", async (req, res) => {
 
     const text = req.headers.text;
@@ -145,6 +137,8 @@ app.get("/postComment", async (req, res) => {
         const id = req.headers.postid
         const text = req.headers.text
         const hashtag = req.headers.hashtag;
+        const username = req.headers.username;
+
         const TwittID = GET_RANDOM_ID();
 
         if(text != undefined && text.length >= 1 && text.replace(/ /gm, "").length >= 1){
@@ -158,6 +152,7 @@ app.get("/postComment", async (req, res) => {
                             hashtag: hashtag.split(","),
                             id: TwittID,
                             twitt: id,
+                            username: username,
                         }
                     }
                 )
@@ -238,6 +233,7 @@ app.get("/twitt/:id?", async (req, res) => {
             CommentCards.push({
                 text: element.data.text,
                 id: element.data.id,
+                username: element.data.username.toLowerCase(),
             })
         });
 
@@ -279,76 +275,116 @@ app.get("/hashtag/:ht?", async (req, res) => {
                 )
             )
         )
+
         doc.data.forEach(element => {
+
+            const amc = element.data.comments
+
             Cards.push({
                 text: element.data.text,
                 id: element.data.id,
+                date: element.data.date,
+                amount_c: amc,
+                creatorname: element.data.creatorname,
+                creatorid: element.data.creatorid,
             })
         });
 
         res.render("./html/index.html", {
             root: __dirname,
             Cards: Cards,
+            creatorname: doc.data[0].data.creatorname,
+            creatorid: doc.data[0].data.creatorid,
         })
     }catch(err){
         res.sendStatus(404)
     }
 })
 
-//Lägg upp servern på port 3000 på backend.artur.red
-app.listen(3000, () => {
-    console.log("Launched successfully.")
-})
 
 
 
 //ACCOUNT HANDLER
 
+app.get("/login", async (req, res) => {
+
+    if(req.cookies["usr"] != undefined || req.cookies["usr"] != ""){
+        res.redirect("https://backend.artur.red")
+    }else{
+        res.sendFile(__dirname + "/html/login.html")
+    }
+})
+
+app.get("/SignIn", async (req, res) => {
+    res.sendFile(__dirname + "/html/signIn.html")
+})
+
 app.get("/CreateAccount", async (req, res) => {
 
     const username = req.headers.username
+    const displayname = req.headers.displayname
     const password = req.headers.password
-    const email = req.headers.email
+    const email = req.headers.email.toLocaleLowerCase()
     const id = req.headers.id
 
     try{
 
         //Kolla om det är en valid request. annar skicka 404
-        if(email == undefined || password == undefined || username == undefined){
+        if(email == undefined || password == undefined || username == undefined || displayname == undefined){
             res.sendStatus(404)
         }else{
 
-            //Kolla om emailen redan är registrerad
             try{
+
+                //Om det går att hitta ett dokument som innehåller samma namn
+                //som usern har lagt in så skicka att usernamnet redan är taget.
+
                 await client.query(
                     Get(
                         Match(
-                            Index("User_by_email"),
-                            email
+                            Index("Account_by_name"),
+                            username.toLowerCase()
                         )
                     )
                 )
-                //IM used status kod
-                res.sendStatus(226)
+                res.sendStatus(409);
             }
-            //Nu om emailen inte var registrerad, så skapa kontot
+            //Om usernamnet inte var taget...
             catch{
-
-                await client.query(
-                    Create(
-                        Collection("Accounts"),
-                        {
-                            data: {
-                                username: username,
-                                password: password,
-                                email: email,
-                                id: id,
-                            }
-                        }
+                //Kolla om emailen redan är registrerad
+                try{
+                    await client.query(
+                        Get(
+                            Match(
+                                Index("User_by_email"),
+                                email
+                            )
+                        )
                     )
-                )
-                res.sendStatus(200)
+                    //IM used status kod
+                    res.sendStatus(226)
+                }
+                //Nu om emailen inte var registrerad, så skapa kontot
+                catch{
+
+                    await client.query(
+                        Create(
+                            Collection("Accounts"),
+                            {
+                                data: {
+                                    username: username,
+                                    displayname: displayname,
+                                    password: password,
+                                    email: email,
+                                    id: id,
+                                }
+                            }
+                        )
+                    )
+                    res.sendStatus(200)
+                }
             }
+
         }
     }catch{
         res.sendStatus(404)
@@ -424,27 +460,28 @@ app.get("/CheckAccountAvailability", async (req, res) => {
 
 })
 
-app.get("/user/:id?", async (req, res) => {
+app.get("/user/:username?", async (req, res) => {
 
-    const id = req.params.id;
+    const username = req.params.username;
 
     try{
 
         const doc = await client.query(
             Get(
                 Match(
-                    Index("User_by_id"),
-                    id
+                    Index("User_by_username"),
+                    username
                 )
             )
         )
+
 
         const twitts = await client.query(
             FdbMap(
                 Paginate(
                     Match(
                         Index("Twitt_by_user_id"), 
-                        id
+                        doc.data.id
                     )
                 ),
                 Lambda(
@@ -456,6 +493,7 @@ app.get("/user/:id?", async (req, res) => {
             )
         )
 
+
         let Twitts = [];
 
         twitts.data.forEach(element => {
@@ -464,6 +502,7 @@ app.get("/user/:id?", async (req, res) => {
                 id: element.data.id,
                 date: element.data.date,
                 creatorid: doc.data.id,
+                creatorname: doc.data.username,
             })
         });
 
@@ -471,12 +510,30 @@ app.get("/user/:id?", async (req, res) => {
         res.render("./html/userpage.html", {
             root: __dirname,
             username: doc.data.username,
-            id: id,
+            displayname: doc.data.displayname,
+            id: doc.data.id,
             twitts: Twitts,
         })
         
     }catch(err){
+        console.log(err)
         res.sendStatus(404)
     }
 
 })
+
+
+
+//LOGO
+
+app.get("/favicon.ico", (req, res) => {
+    res.sendFile(__dirname + "/data/favicon.png")
+})
+
+
+
+//Lägg upp servern på port 3000 på backend.artur.red
+app.listen(3000, () => {
+    console.log("Launched successfully.")
+})
+
